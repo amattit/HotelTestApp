@@ -25,6 +25,7 @@
 		7E7120782B4DA34600B80934 /* RoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E7120772B4DA34600B80934 /* RoomViewModel.swift */; };
 		7E71207B2B4DD40300B80934 /* BookingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E71207A2B4DD40300B80934 /* BookingView.swift */; };
 		7E71207D2B4DD40D00B80934 /* BookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E71207C2B4DD40D00B80934 /* BookingViewModel.swift */; };
+		7E865E922B4F2C4B00905A62 /* TouristView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E865E912B4F2C4B00905A62 /* TouristView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		7E7120772B4DA34600B80934 /* RoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomViewModel.swift; sourceTree = "<group>"; };
 		7E71207A2B4DD40300B80934 /* BookingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingView.swift; sourceTree = "<group>"; };
 		7E71207C2B4DD40D00B80934 /* BookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModel.swift; sourceTree = "<group>"; };
+		7E865E912B4F2C4B00905A62 /* TouristView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouristView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +221,7 @@
 			children = (
 				7E71207A2B4DD40300B80934 /* BookingView.swift */,
 				7E71207C2B4DD40D00B80934 /* BookingViewModel.swift */,
+				7E865E912B4F2C4B00905A62 /* TouristView.swift */,
 			);
 			path = Booking;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				7E7120782B4DA34600B80934 /* RoomViewModel.swift in Sources */,
 				7E71206A2B4D731E00B80934 /* HotelRepository.swift in Sources */,
 				7E7120642B4D723900B80934 /* HotelViewModel.swift in Sources */,
+				7E865E922B4F2C4B00905A62 /* TouristView.swift in Sources */,
 				7E7120732B4D9BEF00B80934 /* CollectionView.swift in Sources */,
 				7E71207B2B4DD40300B80934 /* BookingView.swift in Sources */,
 				7E71207D2B4DD40D00B80934 /* BookingViewModel.swift in Sources */,
