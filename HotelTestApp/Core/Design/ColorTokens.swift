@@ -15,4 +15,5 @@ extension Color {
     static let textSecondary = Color(hex: "#828796")
     static let background = Color(hex: "#F6F6F9")
     static let bacgroundSecondary = Color(hex: "#FBFBFC")
+    static let error = Color(hex: "##EB5757").opacity(0.15)
 }

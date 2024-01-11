@@ -24,7 +24,7 @@ final class BookingViewModel: ObservableObject {
     
     @Published var bookingInfo: [BookingInfo] = []
     
-    @Published var tourists: [TouristModel] = [.init(firstname: "", lastname: "", dateOfBirth: Date(), citizen: "", passportNumber: "", passportValudDate: Date())]
+    @Published var tourists: [TouristModel] = [.init(firstname: "", lastname: "", dateOfBirth: "", citizen: "", passportNumber: "", passportValudDate: "")]
     
     var totalPrice: Int = 0
     
@@ -79,7 +79,45 @@ final class BookingViewModel: ObservableObject {
     }
     
     func addTourist() {
-        tourists.append(.init(firstname: "", lastname: "", dateOfBirth: Date(), citizen: "", passportNumber: "", passportValudDate: Date()))
+        tourists.append(.init(firstname: "", lastname: "", dateOfBirth: "", citizen: "", passportNumber: "", passportValudDate: ""))
+    }
+    
+    func getTourisTitle(for model: TouristModel) -> String {
+        let index = (tourists.firstIndex(of: model) ?? 0) + 1
+        switch index {
+        case 1:
+            return "Первый турист"
+        case 2:
+            return "Второй турист"
+        case 3:
+            return "Третий турист"
+        case 4:
+            return "Четвертый турист"
+        case 5:
+            return "Пятый турист"
+        case 6:
+            return "Шестой турист"
+        case 7:
+            return "Седьмой турист"
+        case 8:
+            return "Восьмой турист"
+        case 9:
+            return "Девятый турист"
+        case 10:
+            return "Десятый турист"
+        case 11:
+            return "Одинадцатый турист"
+        case 12:
+            return "Двенадцатый турист"
+        case 13:
+            return "Тринадцатый турист"
+        default:
+            return "N+1 турист"
+        }
+    }
+    
+    func isValid() -> Bool {
+        tourists.allSatisfy { $0.isValidData }
     }
     
 }

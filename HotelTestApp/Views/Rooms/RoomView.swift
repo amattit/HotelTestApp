@@ -71,6 +71,7 @@ struct RoomsView: View {
                                 Spacer()
                             }
                         }
+                        .buttonStyle(.borderless)
                         .foregroundColor(.white)
                         .padding(.vertical, 15)
                         .background { Color.link }

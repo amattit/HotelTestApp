@@ -10,6 +10,7 @@ import SwiftUI
 enum Routing: Hashable {
     case rooms
     case booking
+    case finish
 }
 struct HotelView: View {
     @ObservedObject var viewModel: HotelViewModel
@@ -151,7 +152,9 @@ struct HotelView: View {
                         RoomsView(viewModel: .init(hotelModel: hotel), router: $router)
                     }
                 case .booking:
-                    BookingView(viewModel: .init())
+                    BookingView(viewModel: .init(), router: $router)
+                case .finish:
+                    SuccessView(router: $router)
                 }
             }
         }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BookingView: View {
     @ObservedObject var viewModel: BookingViewModel
-    
+    @Binding var router: [Routing]
     var body: some View {
         List {
             // Hotel
@@ -40,7 +40,7 @@ struct BookingView: View {
                             .multilineTextAlignment(.leading)
                     }
                     .foregroundColor(.link)
-                    .font(.system(size: 14, weight: .bold))
+                    .font(.system(size: 14, weight: .medium))
                     .buttonStyle(.borderless)
                 }
                 .listRowSeparator(.hidden)
@@ -76,20 +76,20 @@ struct BookingView: View {
                         .setTextFieldType(.email)
                     
                 }
+                .listRowSeparator(.hidden)
             }
             // Tourist info
-            Section {
-                VStack {
-                    ForEach($viewModel.tourists, id: \.self) { item in
-                        TouristView(model: item)
-                    }
+            ForEach($viewModel.tourists) { item in
+                Section {
+                    TouristView(title:viewModel.getTourisTitle(for: item.wrappedValue) ,model: item)
+                        .listRowSeparator(.hidden)
                 }
-                .listRowSeparator(.hidden)
             }
             
             Section {
                 HStack {
                     Text("Добавить туриста")
+                        .font(.system(size: 22, weight: .medium))
                     Spacer()
                     Button(action: viewModel.addTourist) {
                         Image(systemName: "plus")
@@ -100,7 +100,9 @@ struct BookingView: View {
                         Color.link
                     }
                     .foregroundColor(.white)
+                    .clipShape(RoundedRectangle(cornerRadius: 5, style: .continuous))
                 }
+                .listRowSeparator(.hidden)
             }
             // PriceInfo
             Section {
@@ -138,6 +140,22 @@ struct BookingView: View {
                 .font(.system(size: 16))
                 .listRowSeparator(.hidden)
             }
+            
+            Section {
+                Button(action: {router.append(.finish)}) {
+                    HStack {
+                        Spacer()
+                        Text("Оплатить \(viewModel.getPrice(for: viewModel.totalPrice))")
+                        Spacer()
+                    }
+                }
+                .disabled(!viewModel.isValid())
+                .foregroundColor(.white)
+                .padding(.vertical, 15)
+                .background { Color.link }
+                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                .listRowSeparator(.hidden)
+            }
         }
         .listStyle(.plain)
         .listSectionSpacing(8)
@@ -151,144 +169,5 @@ struct BookingView: View {
 }
 
 #Preview {
-    BookingView(viewModel: .init())
-}
-
-struct PrimaryTextField: View {
-    @Environment(\.textFieldType) var type
-    @Binding var value: String
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            if type.isTopLabled {
-                Text(type.title)
-                    .font(.system(size: 12))
-                    .foregroundColor(.textSecondary)
-            }
-            TextField(type.isTopLabled ? "" : type.title, value: $value, formatter: type.formatter)
-        }
-        .keyboardType(type.keyboardType)
-        .padding(.init(top: 10, leading: 16, bottom: 10, trailing: 16))
-        .background {
-            Color.background
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-    }
-}
-
-extension PrimaryTextField {
-    enum FieldType {
-        case phone, email, firstname, lastname
-        case  birth, citizen, passport, valid
-        
-        var title: String {
-            switch self {
-            case .phone:
-                return "Номер телефона"
-            case .email:
-                return "Почта"
-            case .firstname:
-                return "Имя"
-            case .lastname:
-                return "Фамилия"
-            case .birth:
-                return "Дата рождения"
-            case .citizen:
-                return "Гражданство"
-            case .passport:
-                return "Номер загранпаспорта"
-            case .valid:
-                return "Срок действия загранпаспорта"
-            }
-        }
-        
-        var formatter: Formatter {
-            switch self {
-            case .phone:
-                return PhoneNumberFormatter()
-            default:
-                return DefaultFormatter()
-            }
-        }
-        
-        var keyboardType: UIKeyboardType {
-            switch self {
-            case .phone:
-                    return .phonePad
-            case .email:
-                return .emailAddress
-            default:
-                return .default
-            }
-        }
-        
-        var isTopLabled: Bool {
-            switch self {
-            case .phone, .email, .firstname, .lastname:
-                return true
-            default:
-                return false
-            }
-        }
-    }
-    
-    struct PrimaryTextFieldKey: EnvironmentKey {
-        static var defaultValue: FieldType = .phone
-    }
-    
-    func setTextFieldType(_ type: FieldType) -> some View {
-        environment(\.textFieldType, type)
-    }
-}
-
-
-extension EnvironmentValues {
-    var textFieldType: PrimaryTextField.FieldType {
-        get { self[PrimaryTextField.PrimaryTextFieldKey.self] }
-        set { self[PrimaryTextField.PrimaryTextFieldKey.self] = newValue }
-    }
-}
-
-// TODO: FIXME
-class PhoneNumberFormatter: Formatter {
-    override func string(for obj: Any?) -> String? {
-        if let string = obj as? String {
-            return formatted(string)
-        }
-        return nil
-    }
-    
-    override func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?, for string: String, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
-        obj?.pointee = string as AnyObject?
-        return true
-    }
-    
-    func formatted(_ item: String?) -> String? {
-        guard let number = item else { return nil }
-        let mask = "+7 (***) ***-**-**"
-        var result = ""
-        var index = number.startIndex
-        for ch in mask where index < number.endIndex {
-            if ch == "*" {
-                result.append(number[index])
-                index = number.index(after: index)
-            } else {
-                result.append(ch)
-            }
-        }
-        return result
-    }
-}
-
-class DefaultFormatter: Formatter {
-    override func string(for obj: Any?) -> String? {
-        if let string = obj as? String {
-            return string
-        }
-        return nil
-    }
-    
-    override func getObjectValue(_ obj: AutoreleasingUnsafeMutablePointer<AnyObject?>?, for string: String, errorDescription error: AutoreleasingUnsafeMutablePointer<NSString?>?) -> Bool {
-        obj?.pointee = string as AnyObject?
-        return true
-    }
+    BookingView(viewModel: .init(), router: .constant([]))
 }
